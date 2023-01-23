@@ -10,6 +10,9 @@
             <li class="mb-4">
                 <a href="{{ route('admin.projects.create') }}"><i class="fa-solid fa-circle-plus"></i> Aggiungi nuovo</a>
             </li>
+            <li class="mb-4">
+                <a href="{{ route('admin.project-list-by-type') }}"><i class="fa-solid fa-rectangle-list"></i> Tipi/Progetti</a>
+            </li>
 
 
         </ul>

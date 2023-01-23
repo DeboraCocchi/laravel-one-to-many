@@ -29,12 +29,12 @@
                     @enderror
                 </div>
                 <div class="type w-50 mt-4">
-                    <select class="form-select mt-2">
+                    <select class="form-select mt-2" name="type_id">
                         <option value="">Scegli una categoria di progetto</option>
                         @foreach ($types as $type)
                         <option
                         @if ($type->id == old('type_id', $project?->type_id)) selected @endif
-                            value="{{$type->id}}" name="type_id">{{$type->name}}
+                            value="{{$type->id}}">{{$type->name}}
                         </option>
                         @endforeach
 

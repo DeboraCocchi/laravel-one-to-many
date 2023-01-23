@@ -34,6 +34,11 @@ class ProjectController extends Controller
         return view('admin.projects.index', compact('projects', 'direction'));
     }
 
+    public function typeProject(){
+        $types=Type::all();
+        return view('admin.projects.project-list-by-type', compact('types'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -147,11 +152,11 @@ class ProjectController extends Controller
                 Storage::disk('public')->delete($project->cover_image);
             }
             $form_data['image_original_name'] = $request->file('cover_image')->getClientOriginalName();
-            $form_data['cover_image'] = Storage::putFile('uploads', $form_data['cover_image']);
+            $form_data['cover_image'] = Storage::put('uploads', $form_data['cover_image']);
         }
         $project->update($form_data);
-        @dd($project);
-        // return redirect()->route('admin.projects.show', $project);
+
+        return redirect()->route('admin.projects.show', $project);
 
     }
 
