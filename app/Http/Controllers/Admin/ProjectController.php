@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Project;
+use App\Models\Type;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -40,7 +41,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $types=Type::all();
+        return view('admin.projects.create', compact('types'));
     }
 
     /**
@@ -50,37 +52,53 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(ProjectRequest $request)
-    {   /*
-        $form_data=$request->all();
+    {
+        $form_data = $request->all();
+        $form_data['slug'] = Project::generateSlug($form_data['name']);
+
+
+        if(array_key_exists('cover_image',$form_data)){
+
+            $form_data['image_original_name'] = $request->file('cover_image')->getClientOriginalName();
+
+            $form_data['cover_image'] = Storage::put('uploads', $form_data['cover_image']);
+
+        }
+        $new_project = Project::create($form_data);
+
+
+        /*
+        $new_project=new Project();
+        $new_project->name=$form_data['name'];
+        $new_project->slug=Project::generateSlug($form_data['name']);
+        $new_project->created=$form_data['created'];
+        $new_project->client_name=$form_data['client_name'];
+        $new_project->type_id=$form_data['type_id'];
+        $new_project->summary=$form_data['summary'];
         if(array_key_exists('cover_image', $form_data)){
             $form_data['image_original_name']=$request->file('cover_image')->getClientOriginalName();
             $form_data['cover_image']=Storage::put('uploads',$form_data['cover_image']);
+            $new_project->cover_image=$form_data['cover_image'];
          }
-        $new_project=Project::create($form_data);
-        */
+         dd($new_project);
+        // $new_project->save();
+
+
         //--------------------------------------------------------
 
-        //commentato perchè dava problemi
-        // $form_data['slug']=Project::generateSlug($form_data['name']);
-
-        //---------------------------------------------------------------
-
+         /*
         $form_data=$request->all();
-         $new_project=new Project();
-         $new_project->name=$form_data['name'];
-         $new_project->client_name=$form_data['client_name'];
-         $new_project->summary=$form_data['summary'];
+        $form_data['slug']=Project::generateSlug($form_data['name']);
          if(array_key_exists('cover_image', $form_data)){
             $form_data['image_original_name']=$request->file('cover_image')->getClientOriginalName();
-            $new_project->cover_image=Storage::put('uploads',$form_data['cover_image']);
+            $form_data['cover_image']=Storage::put('uploads',$form_data['cover_image']);
          }
 
-        //  @dump($new_project);
-        //  @dump($new_project->cover_image);
-        $new_project->save();
+        $new_project=Project::create($form_data);
 
+        */
 
-        return redirect()->route('admin.projects.show', $new_project);
+        return redirect()->route('admin.projects.show', $new_project)->with('message', 'Nuovo progetto creato');
     }
 
     /**
@@ -101,8 +119,8 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Project $project)
-    {
-        return view('admin.projects.edit', compact('project'));
+    {   $types=Type::all();
+        return view('admin.projects.edit', compact('project', 'types'));
     }
 
     /**
@@ -116,17 +134,24 @@ class ProjectController extends Controller
     {
         $form_data=$request->all();
 
+        if($form_data['name'] != $project->name){
+            $form_data['slug']=Project::generateSlug($form_data['name']);
+        }else{
+            $form_data['slug']=$project->slug;
+        }
+
+
         if(array_key_exists('cover_image',$form_data)){
 
             if($project->cover_image){
                 Storage::disk('public')->delete($project->cover_image);
             }
             $form_data['image_original_name'] = $request->file('cover_image')->getClientOriginalName();
-            $project->cover_image = Storage::put('uploads', $form_data['cover_image']);
+            $form_data['cover_image'] = Storage::putFile('uploads', $form_data['cover_image']);
         }
         $project->update($form_data);
-        // @dd($project);
-        return redirect()->route('admin.projects.show', $project);
+        @dd($project);
+        // return redirect()->route('admin.projects.show', $project);
 
     }
 

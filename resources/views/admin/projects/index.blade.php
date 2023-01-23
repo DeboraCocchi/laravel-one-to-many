@@ -5,7 +5,16 @@
         <div class="row justify-content-between">
             @foreach ($projects as $project)
             <div class="col-2 p-2">
-                <div class="card h-100">
+                <div class="card h-100 position-relative">
+                    <span @class([
+                        'position-absolute',
+                        'badge',
+                        'text-bg-primary'=>$project->type?->name=='MobileApp',
+                        'text-bg-secondary'=>$project->type?->name=='Database',
+                        'text-bg-success'=>$project->type?->name=='Dashboard',
+                        'text-bg-danger'=>$project->type?->name=='Management SW',
+                        'text-bg-info'=>$project->type?->name=='DesktopApp'
+                    ])>{{$project->type?->name}}</span>
 
                     @if (str_contains($project->cover_image,'http'))
                     <img src="{{$project->cover_image}}"

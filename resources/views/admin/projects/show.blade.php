@@ -12,7 +12,21 @@
         alt="{{$project->image_original_name}}">
         @endif
 
+
         <h2 class="mb-2 mt-4"><strong>Nome Progetto: </strong>{{$project->name}}</h2>
+        <div class="d-flex align-items-center w-80 justify-content-center">
+            <span @class([
+                'badge',
+                'me-3',
+                'text-bg-primary'=>$project->type?->name=='MobileApp',
+                'text-bg-secondary'=>$project->type?->name=='Database',
+                'text-bg-success'=>$project->type?->name=='Dashboard',
+                'text-bg-danger'=>$project->type?->name=='Management SW',
+                'text-bg-info'=>$project->type?->name=='DesktopApp'
+                ])>{{$project->type?->name}}</span>
+
+            <h5 class="my-2"><strong>Data di creazione: </strong>{{date_format(date_create($project->created), "d/m/Y")}}</h5>
+        </div>
         <h4  class="my-2"><strong>Cliente: </strong>{{$project->client_name}}</h4>
         <p  class="my-2"><strong>Descrizione: </strong>{!!$project->summary!!}</p>
         <div class="btns">

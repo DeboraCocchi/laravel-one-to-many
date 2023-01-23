@@ -25,6 +25,7 @@ class ProjectRequest extends FormRequest
     {
         return [
             'name'=>'required|max:100|min:3',
+            'created'=>'required',
             'client_name'=>'required|max:50|min:3',
             'summary'=>'required|min:5'
         ];
@@ -35,6 +36,7 @@ class ProjectRequest extends FormRequest
             'name.required'=>'Il nome del progetto è un campo obbligatorio',
             'name.min'=>'Il nome del progetto deve contenere almeno :min caratteri',
             'name.max'=>'Il nome del progetto può contenere al massimo :max caratteri',
+            'created.required'=>'La data di creazione del progetto è obbligatoria',
             'client_name.required'=>'Il nome del cliente è un campo obbligatorio',
             'client_name.min'=>'Il nome del cliente deve contenere almeno :min caratteri',
             'client_name.max'=>'Il nome del cliente può contenere al massimo :max caratteri',

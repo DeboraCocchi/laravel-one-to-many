@@ -19,6 +19,27 @@
                 <p class="invalid-feedback">{{$message}}</p>
                 @enderror
             </div>
+            <div class="mb-3 d-flex justify-content-between">
+                <div class="date w-50 me-5">
+                    <label for="created" class="form-label">Project Creation Date</label>
+                    <input type="date" class="form-control @error('created') is-invalid @enderror" id="created" aria-describedby="name" name="created" value="{{old('created')}}">
+                    @error('created')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+                </div>
+                <div class="type w-50 mt-4">
+                    <select class="form-select mt-2" name="type_id">
+                        <option value="" name="type_id">Scegli una categoria di progetto</option>
+                        @foreach ($types as $type)
+                        <option
+                        value="{{$type->id}}" >{{$type->name}}
+                        @if ($type->id == old('type_id'))selected @endif
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             <div class="mb-3">
                 <label for="summary" class="form-label">Descrizione Progetto</label><br>
                 <textarea name="summary" id="summary" rows="8" class="w-100">{{old('summary')}}</textarea>

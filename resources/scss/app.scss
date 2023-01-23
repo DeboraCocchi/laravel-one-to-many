@@ -128,3 +128,10 @@ footer{
 img.show-proj-img{
     max-width:400px;
 }
+
+.card.position-relative{
+    span.badge{
+        right:8px;
+        top:8px;
+    }
+}
