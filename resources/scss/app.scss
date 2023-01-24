@@ -87,12 +87,12 @@ header{
 
     }
     .settings-area{
-        text-align: center;
+
         &::before{
             content:'';
             display:block;
             color:white;
-            width:80%;
+            width:100%;
             border:1px solid white;
             margin:0 auto 25px;
         }

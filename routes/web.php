@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\TypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +27,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('/',[DashboardController::class, 'index'])->name('dashboard');
         Route::get('projects/project-list-by-type', [ProjectController::class, 'typeProject'])->name('project-list-by-type');
         Route::resource('projects',ProjectController::class);
+        Route::resource('types',TypeController::class)->except(['show','create','edit']);
     });
 
 Route::middleware('auth')->group(function () {
